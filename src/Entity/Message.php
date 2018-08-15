@@ -22,11 +22,6 @@ class Message
     private $createdAt_message;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $number_message;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $modifiedAt_message;
@@ -34,7 +29,7 @@ class Message
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Visitor", inversedBy="Message")
      */
-    private $Message;
+    private $visitor;
 
     public function getId(): ?int
     {
@@ -85,6 +80,18 @@ class Message
     public function setMessage(?Visitor $Message): self
     {
         $this->Message = $Message;
+
+        return $this;
+    }
+
+    public function getVisitor(): ?Visitor
+    {
+        return $this->visitor;
+    }
+
+    public function setVisitor(?Visitor $visitor): self
+    {
+        $this->visitor = $visitor;
 
         return $this;
     }
