@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -40,6 +42,16 @@ class Subject
      * @ORM\ManyToOne(targetEntity="App\Entity\Visitor", inversedBy="Subject")
      */
     private $visitor;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="subject", orphanRemoval=true)
+     */
+    private $Message;
+
+    public function __construct()
+    {
+        $this->Message = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -102,6 +114,37 @@ class Subject
     public function setVisitor(?Visitor $visitor): self
     {
         $this->visitor = $visitor;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Message[]
+     */
+    public function getMessage(): Collection
+    {
+        return $this->Message;
+    }
+
+    public function addMessage(Message $message): self
+    {
+        if (!$this->Message->contains($message)) {
+            $this->Message[] = $message;
+            $message->setSubject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): self
+    {
+        if ($this->Message->contains($message)) {
+            $this->Message->removeElement($message);
+            // set the owning side to null (unless already changed)
+            if ($message->getSubject() === $this) {
+                $message->setSubject(null);
+            }
+        }
 
         return $this;
     }

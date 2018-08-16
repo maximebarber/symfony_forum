@@ -31,6 +31,12 @@ class Message
      */
     private $visitor;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Subject", inversedBy="Message")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $subject;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -92,6 +98,18 @@ class Message
     public function setVisitor(?Visitor $visitor): self
     {
         $this->visitor = $visitor;
+
+        return $this;
+    }
+
+    public function getSubject(): ?Subject
+    {
+        return $this->subject;
+    }
+
+    public function setSubject(?Subject $subject): self
+    {
+        $this->subject = $subject;
 
         return $this;
     }

@@ -10,7 +10,7 @@ class MessageFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        for ($i = 1; $i < 10; $i++) 
+        for ($i = 3; $i < 10; $i++) 
         {
         $message = new Message();
         $message->setCreatedAtMessage(new \DateTime())
