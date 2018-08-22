@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Subject{% endblock %}
+
+{% block body %}
+
+    <br><h1>
+    {% if editMode %}
+        Modifier un sujet
+    {% else %}
+        Créer un sujet
+    {% endif %}
+    </h1><br>
+
+    {{ form_start(subjectForm) }}
+
+        {{ form_row(subjectForm.title_subject) }}
+        {{ form_row(subjectForm.visitor) }}
+        {{ form_row(subjectForm.category) }}
+        {{ form_row(subjectForm.content) }}
+
+        <button type="submit" class="btn btn-outline-primary">
+            {% if editMode %}
+                Modifier
+            {% else %}
+                Ajouter
+            {% endif %}
+        </button>
+
+    {{ form_end(subjectForm) }}
+
+{% endblock %}

@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Visitor;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * @method Visitor|null find($id, $lockMode = null, $lockVersion = null)
@@ -12,12 +12,12 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Visitor[]    findAll()
  * @method Visitor[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class VisitorRepository extends ServiceEntityRepository
+class VisitorRepository extends EntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+/*     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Visitor::class);
-    }
+    } */
 
 //    /**
 //     * @return Visitor[] Returns an array of Visitor objects

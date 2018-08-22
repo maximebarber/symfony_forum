@@ -28,6 +28,9 @@ class Visitor
      */
     private $pwd_visitor;
 
+    //Pas de champ ORM car n'existe pas au sein de la bdd
+    public $confirm_pwd_visitor;
+
     /**
      * @ORM\Column(type="datetime")
      */
@@ -39,7 +42,7 @@ class Visitor
     private $Subject;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="Message")
+     * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="visitor")
      */
     private $Message;
 
@@ -52,18 +55,6 @@ class Visitor
     public function getId() : ? int
     {
         return $this->id;
-    }
-
-    public function getNumberVisitor() : ? int
-    {
-        return $this->number_visitor;
-    }
-
-    public function setNumberVisitor(int $number_visitor) : self
-    {
-        $this->number_visitor = $number_visitor;
-
-        return $this;
     }
 
     public function getPseudoVisitor() : ? string
@@ -162,5 +153,10 @@ class Visitor
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->pseudo_visitor;
     }
 }

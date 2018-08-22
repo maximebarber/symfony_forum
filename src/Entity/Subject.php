@@ -29,11 +29,6 @@ class Subject
     private $createdAt_subject;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $number_subject;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $modifiedAt_subject;
@@ -46,72 +41,73 @@ class Subject
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="subject", orphanRemoval=true)
      */
-    private $Message;
+    private $messages;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $content;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="subjects")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
 
     public function __construct()
     {
         $this->Message = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId() : ? int
     {
         return $this->id;
     }
 
-    public function getTitleSubject(): ?string
+    public function getTitleSubject() : ? string
     {
         return $this->title_subject;
     }
 
-    public function setTitleSubject(string $title_subject): self
+    public function setTitleSubject(string $title_subject) : self
     {
         $this->title_subject = $title_subject;
 
         return $this;
     }
 
-    public function getCreatedAtSubject(): ?\DateTimeInterface
+    public function getCreatedAtSubject() : ? \DateTimeInterface
     {
         return $this->createdAt_subject;
     }
 
-    public function setCreatedAtSubject(\DateTimeInterface $createdAt_subject): self
+    public function setCreatedAtSubject(\DateTimeInterface $createdAt_subject) : self
     {
         $this->createdAt_subject = $createdAt_subject;
 
         return $this;
     }
 
-    public function getNumberSubject(): ?int
-    {
-        return $this->number_subject;
-    }
 
-    public function setNumberSubject(int $number_subject): self
-    {
-        $this->number_subject = $number_subject;
-
-        return $this;
-    }
-
-    public function getModifiedAtSubject(): ?\DateTimeInterface
+    public function getModifiedAtSubject() : ? \DateTimeInterface
     {
         return $this->modifiedAt_subject;
     }
 
-    public function setModifiedAtSubject(?\DateTimeInterface $modifiedAt_subject): self
+    public function setModifiedAtSubject(? \DateTimeInterface $modifiedAt_subject) : self
     {
         $this->modifiedAt_subject = $modifiedAt_subject;
 
         return $this;
     }
 
-    public function getVisitor(): ?Visitor
+    public function getVisitor() : ? Visitor
     {
         return $this->visitor;
     }
 
-    public function setVisitor(?Visitor $visitor): self
+    public function setVisitor(? Visitor $visitor) : self
     {
         $this->visitor = $visitor;
 
@@ -121,12 +117,12 @@ class Subject
     /**
      * @return Collection|Message[]
      */
-    public function getMessage(): Collection
+    public function getMessage() : Collection
     {
         return $this->Message;
     }
 
-    public function addMessage(Message $message): self
+    public function addMessage(Message $message) : self
     {
         if (!$this->Message->contains($message)) {
             $this->Message[] = $message;
@@ -136,7 +132,7 @@ class Subject
         return $this;
     }
 
-    public function removeMessage(Message $message): self
+    public function removeMessage(Message $message) : self
     {
         if ($this->Message->contains($message)) {
             $this->Message->removeElement($message);
@@ -145,6 +141,43 @@ class Subject
                 $message->setSubject(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Message[]
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function __toString()
+    {
+        return (string)($this->id);
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

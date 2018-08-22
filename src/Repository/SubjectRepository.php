@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Subject;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * @method Subject|null find($id, $lockMode = null, $lockVersion = null)
@@ -12,11 +13,21 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Subject[]    findAll()
  * @method Subject[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class SubjectRepository extends ServiceEntityRepository
+class SubjectRepository extends EntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+/*    public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Subject::class);
+    }
+*/
+
+    public function getSubjectsOrderByDate() 
+    {
+        $qb = $this->createQueryBuilder('s')
+                   ->orderBy('s.createdAt_subject', 'ASC')
+                   ->getQuery()
+                   ->getResult();
+        return $qb;
     }
 
 //    /**
@@ -36,15 +47,15 @@ class SubjectRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Subject
+    //Retrieve title of subject
+    public function findSubjectById($subject)
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
+        return $this
+            ->createQueryBuilder('s')
+            ->andWhere('s.id = :val')
+            ->setParameter('val', $subject)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
 }

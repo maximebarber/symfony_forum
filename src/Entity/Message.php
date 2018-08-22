@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MessageRepository")
@@ -32,85 +33,96 @@ class Message
     private $visitor;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Subject", inversedBy="Message")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Subject", inversedBy="messages", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $subject;
 
-    public function getId(): ?int
+    /**
+     * @ORM\Column(type="text")
+     * @Assert\Length(min=3,)
+     */
+    private $content;
+
+    public function getId() : ? int
     {
         return $this->id;
     }
 
-    public function getCreatedAtMessage(): ?\DateTimeInterface
+    public function getCreatedAtMessage() : ? \DateTimeInterface
     {
         return $this->createdAt_message;
     }
 
-    public function setCreatedAtMessage(\DateTimeInterface $createdAt_message): self
+    public function setCreatedAtMessage(\DateTimeInterface $createdAt_message) : self
     {
         $this->createdAt_message = $createdAt_message;
 
         return $this;
     }
 
-    public function getNumberMessage(): ?int
-    {
-        return $this->number_message;
-    }
-
-    public function setNumberMessage(int $number_message): self
-    {
-        $this->number_message = $number_message;
-
-        return $this;
-    }
-
-    public function getModifiedAtMessage(): ?\DateTimeInterface
+    public function getModifiedAtMessage() : ? \DateTimeInterface
     {
         return $this->modifiedAt_message;
     }
 
-    public function setModifiedAtMessage(?\DateTimeInterface $modifiedAt_message): self
+    public function setModifiedAtMessage(? \DateTimeInterface $modifiedAt_message) : self
     {
         $this->modifiedAt_message = $modifiedAt_message;
 
         return $this;
     }
 
-    public function getMessage(): ?Visitor
+    public function getMessage() : ? Visitor
     {
         return $this->Message;
     }
 
-    public function setMessage(?Visitor $Message): self
+    public function setMessage(? Visitor $Message) : self
     {
         $this->Message = $Message;
 
         return $this;
     }
 
-    public function getVisitor(): ?Visitor
+    public function getVisitor() : ? Visitor
     {
         return $this->visitor;
     }
 
-    public function setVisitor(?Visitor $visitor): self
+    public function setVisitor(? Visitor $visitor) : self
     {
         $this->visitor = $visitor;
 
         return $this;
     }
 
-    public function getSubject(): ?Subject
+    public function getSubject() : ? Subject
     {
         return $this->subject;
     }
 
-    public function setSubject(?Subject $subject): self
+    public function setSubject(? Subject $subject) : self
     {
         $this->subject = $subject;
 
         return $this;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->content;
     }
 }

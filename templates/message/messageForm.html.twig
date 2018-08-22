@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Message{% endblock %}
+
+{% block body %}
+
+    <br><h1>
+    {% if editMode %}
+        Modifier un message
+    {% else %}
+        Créer un message
+    {% endif %}
+    </h1><br>
+
+    {{ form_start(messageForm) }}
+        
+        {# {{ form_row(messageForm.subject) }} #}
+        {{ form_row(messageForm.visitor) }}
+        {{ form_row(messageForm.content) }}
+
+        <button type="submit" class="btn btn-outline-primary">
+            {% if editMode %}
+                Modifier
+            {% else %}
+                Ajouter
+            {% endif %}
+        </button>
+
+    {{ form_end(messageForm) }}
+
+{% endblock %}
