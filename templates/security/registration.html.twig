@@ -1,5 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>LOL</h1>
+    <h1>Inscrivez-vous à Apiforum. On ne vous demanderas que votre CB !</h1>
+
+    {{form_start(form) }}
+
+    {{ form_row(form.pseudo_visitor, {'label': 'Pseudo', 'attr': {'placeholder': 'Votre pseudonyme'}}) }}
+
+    {{ form_row(form.pwd_visitor, {'label': 'Mot de passe','attr': {'placeholder': 'Votre mot de passe'}}) }}
+
+    {{ form_row(form.confirm_pwd_visitor, {'label': 'Confirmez le mot de passe','attr': {'placeholder': 'Répetez votre mot de passe'}}) }}
+
+    <button type="submit" class="btn btn-success">Inscription</button>
+
+    {{ form_end(form) }}
 {% endblock %}

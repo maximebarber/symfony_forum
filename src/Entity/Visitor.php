@@ -5,11 +5,18 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VisitorRepository")
+ * @UniqueEntity(
+ *  fields={"pseudo_visitor"},
+ *  message="Ce pseudo est déjà utilisé"
+ * )
  */
-class Visitor
+class Visitor implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -25,10 +32,14 @@ class Visitor
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="8", minMessage="Votre mot de passe doit faire au moins 8 caractères")
      */
     private $pwd_visitor;
 
     //Pas de champ ORM car n'existe pas au sein de la bdd
+    /**
+     * @Assert\EqualTo(propertyPath="pwd_visitor", message="Vos mots de passe ne sont pas identiques")
+     */
     public $confirm_pwd_visitor;
 
     /**
@@ -62,6 +73,12 @@ class Visitor
         return $this->pseudo_visitor;
     }
 
+    //UserInterface method (identical to above)
+    public function getUsername() : ? string
+    {
+        return $this->pseudo_visitor;
+    }
+
     public function setPseudoVisitor(string $pseudo_visitor) : self
     {
         $this->pseudo_visitor = $pseudo_visitor;
@@ -70,6 +87,12 @@ class Visitor
     }
 
     public function getPwdVisitor() : ? string
+    {
+        return $this->pwd_visitor;
+    }
+
+    //UserInterface method (identical to above)
+    public function getPassword() : ? string
     {
         return $this->pwd_visitor;
     }
@@ -153,6 +176,16 @@ class Visitor
         }
 
         return $this;
+    }
+
+    //Next 3 methods are required by UserInterface along with getPassword and getUsername
+    public function eraseCredentials() {}
+
+    public function getSalt() {}
+
+    public function getRoles()
+    {
+        return ['ROLE_USER'];
     }
 
     public function __toString()

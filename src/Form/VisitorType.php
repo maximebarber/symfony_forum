@@ -6,6 +6,7 @@ use App\Entity\Visitor;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class VisitorType extends AbstractType
 {
@@ -13,8 +14,8 @@ class VisitorType extends AbstractType
     {
         $builder
             ->add('pseudo_visitor')
-            ->add('pwd_visitor')
-            ->add('createdAt_visitor')
+            ->add('pwd_visitor', PasswordType::class)
+            ->add('confirm_pwd_visitor', PasswordType::class)
         ;
     }
 
